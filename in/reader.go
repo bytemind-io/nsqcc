@@ -23,9 +23,9 @@ import (
 	"log"
 	"sync"
 
-	"github.com/deepauto-io/nsqcc"
+	"github.com/bytemind-io/nsqcc"
 
-	"github.com/deepauto-io/nsqcc/filepath/ifs"
+	"github.com/bytemind-io/nsqcc/filepath/ifs"
 	"github.com/nsqio/go-nsq"
 )
 

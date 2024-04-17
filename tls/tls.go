@@ -1,5 +1,5 @@
 /*
-Copyright 2022 The deepauto-io LLC.
+Copyright 2022 The bytemind-io LLC.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ import (
 	"encoding/pem"
 	"errors"
 	"fmt"
-	"github.com/deepauto-io/nsqcc/filepath/ifs"
+	"github.com/bytemind-io/nsqcc/filepath/ifs"
 
 	"github.com/youmark/pkcs8"
 )

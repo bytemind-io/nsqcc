@@ -18,7 +18,7 @@ package out
 
 import (
 	"context"
-	"github.com/deepauto-io/nsqcc/filepath/ifs"
+	"github.com/bytemind-io/nsqcc/filepath/ifs"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
