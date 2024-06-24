@@ -19,10 +19,7 @@ package in
 import (
 	"fmt"
 	"github.com/asaskevich/govalidator"
-	"log"
-
 	ntls "github.com/bytemind-io/nsqcc/tls"
-	"github.com/kelseyhightower/envconfig"
 )
 
 // Config is the configuration for the reader.
@@ -68,15 +65,4 @@ func (c Config) Validate() error {
 		return fmt.Errorf("nsq channel is required")
 	}
 	return nil
-}
-
-func MustLoadConfig(cfgPath string) Config {
-	cfg := Config{}
-	if cfgPath == "" {
-		if err := envconfig.Process("", &cfg); err != nil {
-			log.Fatal(err)
-		}
-		return cfg
-	}
-	return cfg
 }

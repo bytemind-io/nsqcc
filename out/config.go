@@ -20,8 +20,6 @@ import (
 	"fmt"
 	"github.com/asaskevich/govalidator"
 	ntls "github.com/bytemind-io/nsqcc/tls"
-	"github.com/kelseyhightower/envconfig"
-	"log"
 )
 
 // Config represents the configuration for the nsqcc command.
@@ -48,15 +46,4 @@ func (c Config) Validate() error {
 		return fmt.Errorf("nsq address is required")
 	}
 	return nil
-}
-
-func MustLoadConfig(cfgPath string) Config {
-	cfg := Config{}
-	if cfgPath == "" {
-		if err := envconfig.Process("", &cfg); err != nil {
-			log.Fatal(err)
-		}
-		return cfg
-	}
-	return cfg
 }

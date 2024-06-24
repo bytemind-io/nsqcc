@@ -24,9 +24,6 @@ import (
 	"errors"
 	"fmt"
 	"github.com/bytemind-io/nsqcc/filepath/ifs"
-	"github.com/kelseyhightower/envconfig"
-	"log"
-
 	"github.com/youmark/pkcs8"
 )
 
@@ -59,17 +56,6 @@ func NewConfig() Config {
 		ClientCertificates:  []ClientCertConfig{},
 		EnableRenegotiation: false,
 	}
-}
-
-func MustLoadConfig(cfgPath string) Config {
-	cfg := Config{}
-	if cfgPath == "" {
-		if err := envconfig.Process("", &cfg); err != nil {
-			log.Fatal(err)
-		}
-		return cfg
-	}
-	return cfg
 }
 
 func defaultTLSConfig() *tls.Config {
