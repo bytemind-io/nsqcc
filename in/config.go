@@ -18,19 +18,20 @@ package in
 
 import (
 	"fmt"
+
 	"github.com/asaskevich/govalidator"
 	ntls "github.com/bytemind-io/nsqcc/tls"
 )
 
 // Config is the configuration for the reader.
 type Config struct {
-	Addresses       []string `json:"addresses,optional" envconfig:"NSQ_ADDRESSES"                   default:"127.0.0.1:4150"`         // Nsqd 地址列表
-	LookupAddresses []string `json:"lookupAddresses,optional" envconfig:"NSQ_LOOKUP_ADDRESSES"            default:"127.0.0.1:4161"`   // NSQLookupd 地址列表
-	Topic           string   `json:"topic,optional" envconfig:"NSQ_TOPIC"`                                                            // 消费的主题名
-	Channel         string   `json:"channel,optional" envconfig:"NSQ_CHANNEL"                     default:"default"`                  // 消费的频道名
-	UserAgent       string   `json:"user_agent,optional" envconfig:"NSQ_USER_AGENT"                  default:"DeepAuto Consumer/1.0"` // 连接时使用的用户UA
-	MaxInFlight     int      `json:"max_in_flight,optional" envconfig:"NSQ_MAX_IN_FLIGHT"               default:"64"`                 // 同时处理的最大消息数量.
-	MaxAttempts     uint16   `json:"max_attempts,optional" envconfig:"NSQ_MAX_ATTEMPTS"                default:"3"`                   // 消息最大重试次数
+	Addresses       []string `json:",optional,env=NSQ_ADDRESSES,default=127.0.0.1:4150"                 envconfig:"NSQ_ADDRESSES"                   default:"127.0.0.1:4150"`        // Nsqd 地址列表
+	LookupAddresses []string `json:",optional,env=NSQ_LOOKUP_ADDRESSES,default=127.0.0.1:4161"          envconfig:"NSQ_LOOKUP_ADDRESSES"            default:"127.0.0.1:4161"`        // NSQLookupd 地址列表
+	Topic           string   `json:",optional,env=NSQ_TOPIC"                                            envconfig:"NSQ_TOPIC"`                                                       // 消费的主题名
+	Channel         string   `json:",optional,env=NSQ_CHANNEL,default=default"                          envconfig:"NSQ_CHANNEL"                     default:"default"`               // 消费的频道名
+	UserAgent       string   `json:",optional,env=NSQ_USER_AGENT,default=DeepAutoConsumer/1.0"          envconfig:"NSQ_USER_AGENT"                  default:"DeepAuto Consumer/1.0"` // 连接时使用的用户UA
+	MaxInFlight     int      `json:",optional,env=NSQ_MAX_IN_FLIGHT,default=64"                         envconfig:"NSQ_MAX_IN_FLIGHT"               default:"64"`                    // 同时处理的最大消息数量.
+	MaxAttempts     uint16   `json:",optional,env=NSQ_MAX_ATTEMPTS,default=3"                           envconfig:"NSQ_MAX_ATTEMPTS"                default:"3"`                     // 消息最大重试次数
 	TLS             ntls.Config
 }
 
@@ -55,10 +56,6 @@ func (c Config) Validate() error {
 
 	if len(c.LookupAddresses) == 0 {
 		return fmt.Errorf("nsq lookupd addresses is required")
-	}
-
-	if govalidator.IsNull(c.Topic) {
-		return fmt.Errorf("nsq topic is required")
 	}
 
 	if govalidator.IsNull(c.Channel) {
