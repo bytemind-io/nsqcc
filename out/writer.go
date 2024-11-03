@@ -20,12 +20,11 @@ import (
 	"context"
 	"crypto/tls"
 	"fmt"
+	"github.com/asaskevich/govalidator"
+	"github.com/bytemind-io/nsqcc"
 	"io"
 	"log"
 	"sync"
-
-	"github.com/asaskevich/govalidator"
-	"github.com/bytemind-io/nsqcc"
 
 	"github.com/bytemind-io/nsqcc/filepath/ifs"
 	"github.com/nsqio/go-nsq"
@@ -59,6 +58,7 @@ func (n *nsqWriter) Connect(ctx context.Context) error {
 	cfg := nsq.NewConfig()
 	cfg.UserAgent = n.conf.UserAgent
 	cfg.MaxInFlight = n.conf.MaxInFlight
+	cfg.MsgTimeout = n.conf.MsgTimeout
 	if n.tlsConf != nil {
 		cfg.TlsV1 = true
 		cfg.TlsConfig = n.tlsConf
@@ -98,13 +98,11 @@ func (n *nsqWriter) WriteWithContext(ctx context.Context, topic string, msg []by
 }
 
 func (n *nsqWriter) Close(ctx context.Context) error {
-	go func() {
-		n.connMut.Lock()
-		if n.producer != nil {
-			n.producer.Stop()
-			n.producer = nil
-		}
-		n.connMut.Unlock()
-	}()
+	n.connMut.Lock()
+	defer n.connMut.Unlock()
+	if n.producer != nil {
+		n.producer.Stop()
+		n.producer = nil
+	}
 	return nil
 }

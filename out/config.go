@@ -20,13 +20,15 @@ import (
 	"fmt"
 	"github.com/asaskevich/govalidator"
 	ntls "github.com/bytemind-io/nsqcc/tls"
+	"time"
 )
 
 // Config represents the configuration for the nsqcc command.
 type Config struct {
-	Address     string `json:",optional,env=NSQ_WRITER_ADDRESS,default=127.0.0.1:4150"              envconfig:"NSQ_WRITER_ADDRESS"                     default:"127.0.0.1:4150"`        // NSQ 地址
-	UserAgent   string `json:",optional,env=NSQ_WRITER_USER_AGENT,default=DeepAutoProducer/1.0"     envconfig:"NSQ_WRITER_USER_AGENT"                  default:"DeepAuto Producer/1.0"` // 连接时使用的用户UA
-	MaxInFlight int    `json:",optional,env=NSQ_WRITER_MAX_IN_FLIGHT,default=64"                    envconfig:"NSQ_WRITER_MAX_IN_FLIGHT"               default:"64"`                    // 同时处理的最大消息数量
+	Address     string        `json:",optional,env=NSQ_WRITER_ADDRESS,default=127.0.0.1:4150"              envconfig:"NSQ_WRITER_ADDRESS"                     default:"127.0.0.1:4150"`        // NSQ 地址
+	UserAgent   string        `json:",optional,env=NSQ_WRITER_USER_AGENT,default=DeepAutoProducer/1.0"     envconfig:"NSQ_WRITER_USER_AGENT"                  default:"DeepAuto Producer/1.0"` // 连接时使用的用户UA
+	MaxInFlight int           `json:",optional,env=NSQ_WRITER_MAX_IN_FLIGHT,default=64"                    envconfig:"NSQ_WRITER_MAX_IN_FLIGHT"               default:"64"`                    // 同时处理的最大消息数量
+	MsgTimeout  time.Duration `json:",optional,env=NSQ_WRITER_MSG_TIMEOUT,default=60s"                    envconfig:"NSQ_WRITER_MSG_TIMEOUT"                 default:"60s"`                    // 消息超时时间
 	TLS         ntls.Config
 }
 
